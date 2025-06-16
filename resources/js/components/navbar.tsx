@@ -1,61 +1,68 @@
 import React from 'react';
-import { Link } from '@inertiajs/react';
-import { LineMdAccount } from './ui/account';
+import { Link, usePage } from '@inertiajs/react';
 
-const navbar: React.FC = () => {
+const navItems = ['home', 'products', 'about', 'contact', 'profile'];
+
+const Navbar: React.FC = () => {
+  const { url } = usePage();
+  const currentPath = url.split('/')[1] || 'home';
+
   return (
-    <nav className="bg-white shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <Link href="/" className="flex-shrink-0 flex items-center">
-              <span className="text-xl font-bold text-gray-800">Your App</span>
-            </Link>
-          </div>
-          
-          <div className="hidden md:flex items-center space-x-8">
-            <Link 
-              href="/" 
-              className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-            >
-              Home
-            </Link>
-            <Link 
-              href="/about" 
-              className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-            >
-              About
-            </Link>
-            <Link 
-              href="/services" 
-              className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-            >
-              Services
-            </Link>
-            <Link 
-              href="/contact" 
-              className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-2"
-            >
-              <LineMdAccount className="w-5 h-5" />
-            </Link>
-          </div>
+    <header className="fixed top-0 w-full z-50 text-white bg-transparent">
+      <div className="px-[100px] py-4 flex justify-between items-center">
+        {/* left: branding */}
+        <Link href="/" className="flex items-center gap-2">
+          <img
+            src="/assets/logo/star.svg"
+            alt="star logo"
+            className="w-[50px] h-[50px]"
+          />
+          <span className="text-[40px] font-normal tracking-wide">peridust</span>
+        </Link>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <button
-              type="button"
-              className="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600"
-              aria-label="Toggle menu"
-            >
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
+        {/* center: nav links inside shared white pill */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="w-[550px] h-[50px] bg-white rounded-full shadow-sm flex items-center px-4">
+            {navItems.map((item) => {
+              const isActive = currentPath === item;
+              return (
+                <Link
+                  key={item}
+                  href={item === 'home' ? '/' : `/${item}`}
+                  className="flex-1 flex items-center justify-center"
+                >
+                  <div
+                    className={`flex items-center justify-center gap-1 transition-all ${
+                      isActive
+                        ? 'text-black font-semibold text-[20px]'
+                        : 'text-black/40 font-thin text-[16px]'
+                    }`}
+                  >
+                    {isActive && (
+                      <img
+                        src="/assets/logo/star2.svg"
+                        alt="active star"
+                        className="w-[30px] h-[30px]"
+                      />
+                    )}
+                    <span>{item}</span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
+
+        {/* right: shop now button */}
+        <Link
+          href="/shop"
+          className="w-[150px] h-[50px] bg-[#6666FF] text-white rounded-full shadow-sm flex items-center justify-center text-[20px] font-regular"
+        >
+          shop now
+        </Link>
       </div>
-    </nav>
+    </header>
   );
 };
 
-export default navbar;
+export default Navbar;

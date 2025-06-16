@@ -1,37 +1,18 @@
 import React from 'react';
-import { Head } from '@inertiajs/react';
-import Navbar from './navbar';
-import Footer from './footer';
+import Navbar from '@/components/navbar';
+import Footer from '@/components/footer';
 
-interface LayoutProps {
+interface Props {
   children: React.ReactNode;
-  title?: string;
-  description?: string;
 }
 
-const Layout: React.FC<LayoutProps> = ({ 
-  children, 
-  title = '', 
-  description = 'Building amazing web experiences' 
-}) => {
+const Layout: React.FC<Props> = ({ children }) => {
   return (
-    <>
-      <Head>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </Head>
-      
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-        
-        <main className="flex-grow">
-          {children}
-        </main>
-        
-        <Footer />
-      </div>
-    </>
+    <div className="relative font-quicksand">
+      <Navbar />
+      <main>{children}</main>
+      <Footer />
+    </div>
   );
 };
 
