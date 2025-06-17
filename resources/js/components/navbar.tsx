@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link, usePage } from '@inertiajs/react';
+import BubbleFloat from '../animation/bubbleFloat';
+import Pop from '../animation/pop';
 
 const navItems = ['home', 'products', 'about', 'contact', 'profile'];
 
@@ -31,35 +33,36 @@ const Navbar: React.FC = () => {
                   href={item === 'home' ? '/' : `/${item}`}
                   className="flex-1 flex items-center justify-center"
                 >
-                  <div
-                    className={`flex items-center justify-center gap-1 transition-all ${
-                      isActive
-                        ? 'text-black font-semibold text-[20px]'
-                        : 'text-black/40 font-thin text-[16px]'
-                    }`}
-                  >
-                    {isActive && (
+                  <BubbleFloat
+                    text={item}
+                    isActive={isActive}
+                    activeIcon={
                       <img
                         src="/assets/logo/star2.svg"
                         alt="active star"
                         className="w-[30px] h-[30px]"
                       />
-                    )}
-                    <span>{item}</span>
-                  </div>
+                    }
+                    className={`transition-colors duration-300 ${
+                      isActive
+                        ? 'text-black font-semibold text-[20px] '
+                        : 'text-[#6B7280] font-normal text-[16px]'
+                    }`}
+                  />
                 </Link>
               );
             })}
           </div>
         </div>
 
-        {/* right: shop now button */}
-        <Link
+        {/* right: shop now button with Pop animation */}
+        <Pop
+          as={Link}
           href="/shop"
-          className="w-[150px] h-[50px] bg-[#6666FF] text-white rounded-full shadow-sm flex items-center justify-center text-[20px] font-regular"
+          className="w-[150px] h-[50px] bg-[#6666FF] text-white rounded-full shadow-sm flex items-center justify-center text-[20px] font-regular hover:shadow-lg transition-shadow duration-200"
         >
           shop now
-        </Link>
+        </Pop>
       </div>
     </header>
   );
