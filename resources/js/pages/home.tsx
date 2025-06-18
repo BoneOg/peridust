@@ -1,15 +1,29 @@
 import Layout from '../components/layout';
-import { Icon } from "@iconify/react";
-import Pop from '../animation/pop';
-import { Link } from '@inertiajs/react';
+import Slide, { SlideRef } from '../animation/slide';
+import { useRef, useState } from 'react';
 
 const HeroSection = () => {
+  const slideRef = useRef<SlideRef>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const handleNextSlide = () => {
+    slideRef.current?.slideNext();
+  };
+
+  const handlePrevSlide = () => {
+    slideRef.current?.slidePrev();
+  };
+
+  const handleSlideChange = (index: number) => {
+    setCurrentSlide(index);
+  };
+
   return (
     <Layout>
-      <div className="bg-[#CCCCFF] min-h-screen px-[100px] flex flex-col justify-center items-center">
-        {/* Hero Title - 50px above bottle */}
+      <div className="bg-[#CCCCFF] min-h-screen flex flex-col justify-center items-center py-8">
+        {/* Hero Title - Responsive sizing and spacing */}
         <h1 
-          className="text-white text-[80px] font-normal text-center mt-[50px]"
+          className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-[80px] font-normal text-center mb-4 sm:mb-6 md:mb-8 lg:mb-10 xl:mb-1 xl:mt-23 max-w-4xl leading-tight"
           style={{
             textShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
           }}
@@ -18,84 +32,53 @@ const HeroSection = () => {
         </h1>
 
         {/* Main Content Area with Bottle and Arrows */}
-        <div className="flex items-center justify-center relative">
+        <div className="flex items-center justify-center relative w-full flex-1">
 
-          {/* Right Arrow */}
-          <button className="absolute right-[900px] text-white hover:text-white/40 transition-opacity z-10">
-            <Icon icon="fluent:ios-arrow-24-regular" className="text-4xl" />
+          {/* Left Arrow - Fixed to match navbar margin exactly */}
+          <button 
+            onClick={handlePrevSlide}
+            className="absolute left-[100px] text-white hover:opacity-40 transition-opacity z-10"
+          >
+            <img 
+              src="assets/ui/arrow.svg" 
+              alt="Previous" 
+              className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 transform scale-x-[-1]"
+            />
           </button>
 
-          {/* Center Content with Bottle and Product Info */}
-          <div className="flex items-center justify-center relative">
-            {/* Mockup Bottle */}
-            <div className="relative">
-              <img 
-                src="/assets/mockups/lotion.png" 
-                alt="Lotion Bottle Mockup" 
-                className="h-[650px] w-auto object-contain"
-              />
-            </div>
+          {/* Center Content with Sliding Products */}
+          <Slide 
+            ref={slideRef}
+            onSlideChange={handleSlideChange}
+          />
 
-            {/* Product Info - positioned to the right of bottle */}
-            <div className="absolute left-full ml-4 top-2/3 transform -translate-y-1/2 text-left w-[500px]">
-              <h2 
-                className="text-white text-[32px] font-semibold mb-2"
-                style={{
-                  textShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
-                }}
-              >
-                peridust body lotion
-              </h2>
-              <p 
-                className="text-white text-[24px] font-normal leading-relaxed mb-4"
-                style={{
-                  textShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
-                }}
-              >
-                A delicate blend of weightless moisture and soft glow. Designed to melt into your skin like fairy dust, leaving it smooth, luminous, and gently scented.
-              </p>
-
-              {/* Shop Now Button */}
-              <Pop
-                as={Link}
-                href="/shop"
-                className="w-[150px] h-[50px] bg-[#6666FF] text-white rounded-full shadow-sm flex items-center justify-center text-[20px] font-regular hover:shadow-lg transition-shadow duration-200"
-              >
-                shop now
-              </Pop>
-            </div>
-          </div>
-
-          {/* Left Arrow */}
-          <button className="absolute left-[1050px] text-white hover:text-white/40 transition-opacity z-10">
-            <Icon icon="fluent:ios-arrow-24-regular" className="text-4xl rotate-180" />
+          {/* Right Arrow - Fixed to match navbar margin exactly */}
+          <button 
+            onClick={handleNextSlide}
+            className="absolute right-[100px] text-white hover:opacity-40 transition-opacity z-10"
+          >
+            <img 
+              src="assets/ui/arrow.svg" 
+              alt="Next" 
+              className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10"
+            />
           </button>
         </div>
 
-        {/* Bottom Dots */}
-        <div className="flex space-x-8 mt-[30px]">
-          {/* Active Dot */}
-          <div 
-            className="w-3 h-3 rounded-full bg-[#6666FF]"
-            style={{
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
-            }}
-          ></div>
-          
-          {/* Inactive Dots */}
-          <div 
-            className="w-3 h-3 rounded-full bg-white/40"
-            style={{
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
-            }}
-          ></div>
-          
-          <div 
-            className="w-3 h-3 rounded-full bg-white/40"
-            style={{
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
-            }}
-          ></div>
+        {/* Bottom Dots - Responsive spacing */}
+        <div className="flex space-x-4 sm:space-x-6 md:space-x-8 mt-6 sm:mt-8 md:mt-10 lg:mt-12 xl:mt-[40px]">
+          {/* Dynamic Dots based on current slide */}
+          {[0, 1, 2].map((index) => (
+            <div 
+              key={index}
+              className={`w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 rounded-full ${
+                currentSlide === index ? 'bg-[#6666FF]' : 'bg-white/40'
+              }`}
+              style={{
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+              }}
+            />
+          ))}
         </div>
       </div>
     </Layout>
