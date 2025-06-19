@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import { animate } from 'animejs';
 import { Link } from '@inertiajs/react';
-import Pop from './pop';
+import Expand from './expand';
 
 interface Product {
   id: number;
@@ -158,14 +158,14 @@ const Slide = forwardRef<SlideRef, SlideProps>(({ onSlideChange }, ref) => {
             <img 
               src={product.image}
               alt={`${product.name} Mockup`}
-              className="h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] xl:h-[550px] 2xl:h-[620px] w-auto object-contain"
+              className="h-[620px] w-auto object-contain"
             />
           </div>
 
           {/* Product Info - Responsive positioning and sizing */}
-          <div className="ml-4 sm:ml-6 md:ml-8 lg:ml-10 xl:ml-12 text-left max-w-[250px] sm:max-w-[300px] md:max-w-[350px] lg:max-w-[400px] xl:max-w-[450px] 2xl:max-w-[500px]">
+          <div className="ml-12 text-left max-w-[500px]">
             <h2 
-              className="text-white text-lg sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl 2xl:text-[28px] font-semibold mb-1 sm:mb-2"
+              className="text-white text-[32px] font-semibold "
               style={{
                 textShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
               }}
@@ -173,7 +173,7 @@ const Slide = forwardRef<SlideRef, SlideProps>(({ onSlideChange }, ref) => {
               {product.name}
             </h2>
             <p 
-              className="text-white text-sm sm:text-base md:text-lg lg:text-lg xl:text-xl 2xl:text-[20px] font-normal leading-relaxed mb-3 sm:mb-4"
+              className="text-white text-[20px] font-normal leading-relaxed mb-5"
               style={{
                 textShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
               }}
@@ -182,13 +182,13 @@ const Slide = forwardRef<SlideRef, SlideProps>(({ onSlideChange }, ref) => {
             </p>
 
             {/* Shop Now Button - Responsive sizing */}
-            <Pop
+            <Expand
               as={Link}
               href="/shop"
-              className="w-[120px] sm:w-[130px] md:w-[140px] lg:w-[145px] xl:w-[150px] h-[40px] sm:h-[42px] md:h-[45px] lg:h-[48px] xl:h-[50px] bg-[#6666FF] text-white rounded-full shadow-sm flex items-center justify-center text-base sm:text-lg md:text-lg lg:text-xl xl:text-[20px] font-regular hover:shadow-lg transition-shadow duration-200"
+              className="w-[120px] w-[150px] h-[50px] bg-[#6666FF] text-white rounded-full shadow-sm flex items-center justify-center text-[20px] font-regular hover:shadow-lg transition-shadow duration-200"
             >
               shop now
-            </Pop>
+            </Expand>
           </div>
         </div>
       ))}
