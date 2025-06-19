@@ -1,8 +1,9 @@
 import Layout from '../components/layout';
 import Slide, { SlideRef } from '../animation/slide';
+import PopoutSoft from '../animation/popoutsoft';
 import { useRef, useState } from 'react';
 
-const HeroSection = () => {
+const Home = () => {
   const slideRef = useRef<SlideRef>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -21,15 +22,17 @@ const HeroSection = () => {
   return (
     <Layout>
       <div className="bg-[#CCCCFF] min-h-screen flex flex-col justify-center items-center py-8">
-        {/* Hero Title - Responsive sizing and spacing */}
-        <h1 
-          className="text-white text-[80px] font-normal text-center mt-23 max-w-4xl leading-tight"
-          style={{
-            textShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
-          }}
-        >
-          A twinkle in every touch
-        </h1>
+        {/* Hero Title with PopoutSoft animation */}
+        <PopoutSoft delay={1.0}>
+          <h1 
+            className="text-white text-[80px] font-normal text-center mt-23 max-w-4xl leading-tight"
+            style={{
+              textShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+            }}
+          >
+            A twinkle in every touch
+          </h1>
+        </PopoutSoft>
 
         {/* Main Content Area with Bottle and Arrows */}
         <div className="flex items-center justify-center relative w-full flex-1">
@@ -65,24 +68,26 @@ const HeroSection = () => {
           </button>
         </div>
 
-        {/* Bottom Dots - Responsive spacing */}
-        <div className="flex space-x-4 mt-[40px]">
-          {/* Dynamic Dots based on current slide */}
-          {[0, 1, 2].map((index) => (
-            <div 
-              key={index}
-              className={`w-3 h-3 rounded-full ${
-                currentSlide === index ? 'bg-[#6666FF]' : 'bg-white/40'
-              }`}
-              style={{
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
-              }}
-            />
-          ))}
-        </div>
+        {/* Bottom Dots with PopoutSoft animation */}
+        <PopoutSoft delay={2.5}>
+          <div className="flex space-x-4 mt-[40px]">
+            {/* Dynamic Dots based on current slide */}
+            {[0, 1, 2].map((index) => (
+              <div 
+                key={index}
+                className={`w-3 h-3 rounded-full ${
+                  currentSlide === index ? 'bg-[#6666FF]' : 'bg-white/40'
+                }`}
+                style={{
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+                }}
+              />
+            ))}
+          </div>
+        </PopoutSoft>
       </div>
     </Layout>
   );
 };
 
-export default HeroSection;
+export default Home;

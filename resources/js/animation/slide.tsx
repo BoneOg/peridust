@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState, forwardRef, useImperativeHandle } f
 import { animate } from 'animejs';
 import { Link } from '@inertiajs/react';
 import Expand from './expand';
+import PopoutSoft from './popoutsoft';
 
 interface Product {
   id: number;
@@ -153,42 +154,53 @@ const Slide = forwardRef<SlideRef, SlideProps>(({ onSlideChange }, ref) => {
           className="absolute inset-0 flex items-center justify-center"
           style={{ display: index === 0 ? 'flex' : 'none' }}
         >
-          {/* Mockup Product - Responsive sizing */}
-          <div className="relative">
-            <img 
-              src={product.image}
-              alt={`${product.name} Mockup`}
-              className="h-[620px] w-auto object-contain"
-            />
-          </div>
+          {/* Mockup Product with PopoutSoft animation */}
+          <PopoutSoft delay={1.3}>
+            <div className="relative">
+              <img 
+                src={product.image}
+                alt={`${product.name} Mockup`}
+                className="h-[620px] w-auto object-contain"
+              />
+            </div>
+          </PopoutSoft>
 
           {/* Product Info - Responsive positioning and sizing */}
           <div className="ml-12 text-left max-w-[500px]">
-            <h2 
-              className="text-white text-[32px] font-semibold "
-              style={{
-                textShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
-              }}
-            >
-              {product.name}
-            </h2>
-            <p 
-              className="text-white text-[20px] font-normal leading-relaxed mb-5"
-              style={{
-                textShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
-              }}
-            >
-              {product.description}
-            </p>
+            {/* Product Name with PopoutSoft animation */}
+            <PopoutSoft delay={1.6}>
+              <h2 
+                className="text-white text-[32px] font-semibold "
+                style={{
+                  textShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+                }}
+              >
+                {product.name}
+              </h2>
+            </PopoutSoft>
 
-            {/* Shop Now Button - Responsive sizing */}
-            <Expand
-              as={Link}
-              href="/shop"
-              className="w-[120px] w-[150px] h-[50px] bg-[#6666FF] text-white rounded-full shadow-sm flex items-center justify-center text-[20px] font-regular hover:shadow-lg transition-shadow duration-200"
-            >
-              shop now
-            </Expand>
+            {/* Product Description with PopoutSoft animation */}
+            <PopoutSoft delay={1.9}>
+              <p 
+                className="text-white text-[20px] font-normal leading-relaxed mb-5"
+                style={{
+                  textShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+                }}
+              >
+                {product.description}
+              </p>
+            </PopoutSoft>
+
+            {/* Shop Now Button with PopoutSoft animation */}
+            <PopoutSoft delay={2.2}>
+              <Expand
+                as={Link}
+                href="/shop"
+                className="w-[120px] w-[150px] h-[50px] bg-[#6666FF] text-white rounded-full shadow-sm flex items-center justify-center text-[20px] font-regular hover:shadow-lg transition-shadow duration-200"
+              >
+                shop now
+              </Expand>
+            </PopoutSoft>
           </div>
         </div>
       ))}
@@ -197,5 +209,4 @@ const Slide = forwardRef<SlideRef, SlideProps>(({ onSlideChange }, ref) => {
 });
 
 Slide.displayName = 'Slide';
-
 export default Slide;
